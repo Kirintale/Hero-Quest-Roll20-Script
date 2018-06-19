@@ -1,25 +1,25 @@
-//Hero Quest Dice Mechanics
+// Vampire the Masquerade 5e Alpha Dice Mechanics by Momtahan K.
 //
+// (Original copyright)
+// The following code is an adaptation of that produced by Konrad J. for "Hero Quest Dice Mechanics"//
 // copyright pug games 2014
 // please feel free to use this script, change it, add to it in any way you feel
 // Script created by Roll20 user Konrad J.
 //
-// !hq log on|multi|single|off  // default:on and multi
+// Vampire the Masquerade 5e Alpha Dice Mechanics by Momtahan K.
+//
+// !vtm log on|multi|single|off  // default:on and multi
 // outputs dice rolled to the chat window if "on", only the result if "off"
 // dice rolled will be on single line if "single" and on multiple lines if "multi"
-// !hq graphics on|off|s|m|l  //default:on and m
+// !vtm graphics on|off|s|m|l  //default:on and m
 // shows dice rolled as graphic, small, medium, or large if "on" or as text if "off"
-// !hq #h #m					// if h is first then the hero is attacking, if the m is first then the monster is attacking
+// !vtm #v #h					// v is the number of standard die, h is the number of hunger die you wish to roll.
 //
-// !hq w #h #m					  	// whisper not really working very well right now, please ignore this option for now
-// will roll the dice and whisper them only to the GM, gm can't whisper dice rolls to other players
-// due to the way the API currently works we can only send a whisper dice roll via text output, even if you have graphics rolling turned on
-//
-// !hq test // this will output every side of every die to the chat window
-//
+// !vtm test // this will output every side of every die to the chat window
+// !vtm hero // Only for true heroes
 
-var hqCONSTANTS = {
-	HQCOMMAND: "!hq",
+var vtmCONSTANTS = {
+	VTMCOMMAND: "!vtm",
 	GRAPHICSIZE: {
 		SMALL: 20,
 		MEDIUM: 30,
@@ -40,10 +40,10 @@ var hqCONSTANTS = {
 	}
 };
 
-var hqGlobal = {
+var vtmGlobal = {
 	diceLogChat: true,
 	diceGraphicsChat: true,
-	diceGraphicsChatSize: hqCONSTANTS.GRAPHICSIZE.MEDIUM,
+	diceGraphicsChatSize: vtmCONSTANTS.GRAPHICSIZE.MEDIUM,
 	diceTextResult: "",
 	diceTextResultLog: "",
 	diceGraphicResult: "",
@@ -52,7 +52,7 @@ var hqGlobal = {
 	diceLogRolledOnOneLine: false
 };
 
-function rollHQDice(diceQty, type, who) {
+function rollVTMDice(diceQty, type) {
 	var roll = 0;
 	var diceResult = {
 		nilScore: 0,
@@ -72,13 +72,13 @@ function rollHQDice(diceQty, type, who) {
 	var s4 = '" width="';
 	var s5 = '"/>';
 
-	if (hqGlobal.diceTestEnabled === true) {
+	if (vtmGlobal.diceTestEnabled === true) {
 		diceQty = 10;
 	}
 
 	for (i = 1; i <= diceQty; i++) {
 
-		if (hqGlobal.diceTestEnabled === true) {
+		if (vtmGlobal.diceTestEnabled === true) {
 			roll = roll + 1;
 		}
 		else {
@@ -89,52 +89,52 @@ function rollHQDice(diceQty, type, who) {
 			switch (roll) {
 				case 1:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(1)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.NIL + s2 + "1" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.NIL + s2 + "1" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 2:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(2)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.NIL + s2 + "2" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.NIL + s2 + "2" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 3:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(3)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.NIL + s2 + "3" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.NIL + s2 + "3" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 4:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(4)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.NIL + s2 + "4" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.NIL + s2 + "4" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 5:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(5)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.NIL + s2 + "5" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.NIL + s2 + "5" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 6:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(6)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.SUCCESS + s2 + "6" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.SUCCESS + s2 + "6" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 7:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(7)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.SUCCESS + s2 + "7" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.SUCCESS + s2 + "7" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 8:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(8)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.SUCCESS + s2 + "8" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.SUCCESS + s2 + "8" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.skulsuccessScorel = diceResult.successScore + 1;
 					break;
 				case 9:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(9)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.SUCCESS + s2 + "9" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.SUCCESS + s2 + "9" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 10:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(0)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.VAMPIRE.CRIT + s2 + "0" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.VAMPIRE.CRIT + s2 + "0" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					diceResult.critScore = diceResult.critScore + 1;
 					break;
@@ -143,52 +143,52 @@ function rollHQDice(diceQty, type, who) {
 			switch (roll) {
 				case 1:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(1)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.FAIL + s2 + "1" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.FAIL + s2 + "1" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.failScore = diceResult.failScore + 1;
 					break;
 				case 2:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(2)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.NIL + s2 + "2" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.NIL + s2 + "2" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 3:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(3)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.NIL + s2 + "3" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.NIL + s2 + "3" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 4:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(4)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.NIL + s2 + "4" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.NIL + s2 + "4" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 5:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(5)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.NIL + s2 + "5" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.NIL + s2 + "5" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.nilScore = diceResult.nilScore + 1;
 					break;
 				case 6:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(6)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.SUCCESS + s2 + "6" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.SUCCESS + s2 + "6" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 7:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(7)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.SUCCESS + s2 + "7" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.SUCCESS + s2 + "7" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 8:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(8)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.SUCCESS + s2 + "8" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.SUCCESS + s2 + "8" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 9:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(9)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.SUCCESS + s2 + "9" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.SUCCESS + s2 + "9" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					break;
 				case 10:
 					diceResult.diceTextLog = diceResult.diceTextLog + "(0)";
-					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + hqCONSTANTS.HUNGER.CRIT + s2 + "0" + s3 + hqGlobal.diceGraphicsChatSize + s4 + hqGlobal.diceGraphicsChatSize + s5;
+					diceResult.diceGraphicsLog = diceResult.diceGraphicsLog + s1 + vtmCONSTANTS.HUNGER.CRIT + s2 + "0" + s3 + vtmGlobal.diceGraphicsChatSize + s4 + vtmGlobal.diceGraphicsChatSize + s5;
 					diceResult.successScore = diceResult.successScore + 1;
 					diceResult.muddyCritScore = diceResult.muddyCritScore + 1;
 					break;
@@ -224,29 +224,20 @@ function processVampireDiceScript(diceToRoll, who) {
 		diceGraphicsLog: "",
 		diceTextLog: ""
 	};
-	var i = 0;
-	var j = diceToRoll.length;
-	var diceTextResults = "";
-	var diceGraphicsResults = "";
+
 	var diceTextRolled = "";
 	var diceGraphicsRolled = "";
-	var s1 = '<img src="';
-	var s2 = '" title="';
-	var s3 = '" height="';
-	var s4 = '" width="';
-	var s5 = '"/>';
 	var attack = "";
 	var defend = "";
 	var diceQty = "";
-	var damage = 0;
 
 	attack = diceToRoll[0].substring(0, 1);
 	diceQty = diceToRoll[0].substring(1);
-	attackDiceResults = rollHQDice(diceQty, attack, who);
+	attackDiceResults = rollVTMDice(diceQty, attack, who);
 
 	defend = diceToRoll[1].substring(0, 1);
 	diceQty = diceToRoll[1].substring(1);
-	defendDiceResults = rollHQDice(diceQty, defend, who);
+	defendDiceResults = rollVTMDice(diceQty, defend, who);
 
 	var diceTotals = {
 		bShield: attackDiceResults.bShield + defendDiceResults.bShield,
@@ -258,32 +249,32 @@ function processVampireDiceScript(diceToRoll, who) {
 		muddyCritScore: attackDiceResults.muddyCritScore + defendDiceResults.muddyCritScore,
 		failScore: attackDiceResults.failScore + defendDiceResults.failScore,
 		diceGraphicsLog: attackDiceResults.diceGraphicsLog + defendDiceResults.diceGraphicsLog,
-		diceTextLog: attackDiceResults.diceTextLog + defendDiceResults.diceTextLog
+		diceTextLog: "Normal" + attackDiceResults.diceTextLog + "Hunger" + defendDiceResults.diceTextLog
 	};
 
-	if (hqGlobal.diceTestEnabled === true) {
-		sendChat("", "/desc " + who + ": h1 m1");
+	if (vtmGlobal.diceTestEnabled === true) {
+		sendChat("", "/desc " + who + ": v1 h1");
 	}
 	else {
 		sendChat(who, "/em " + diceToRoll);
 	}
 
-	if (hqGlobal.diceLogChat === true) {
-		if (hqGlobal.diceLogRolledOnOneLine === true) {
+	if (vtmGlobal.diceLogChat === true) {
+		if (vtmGlobal.diceLogRolledOnOneLine === true) {
 			diceGraphicsRolled = diceTotals.diceGraphicsLog;
 			diceTextRolled = diceTotals.diceTextLog;
-			if (hqGlobal.diceGraphicsChat === true) {
+			if (vtmGlobal.diceGraphicsChat === true) {
 				sendChat("", "/direct " + diceGraphicsRolled);
 			} else {
 				sendChat("", diceTextRolled);
 			}
 		} else {
-			if (hqGlobal.diceGraphicsChat === true) {
+			if (vtmGlobal.diceGraphicsChat === true) {
 				sendChat("", "/direct " + attackDiceResults.diceGraphicsLog);
 				sendChat("", "/direct " + defendDiceResults.diceGraphicsLog);
 			} else {
-				sendChat("", "Atacker " + attackDiceResults.diceTextLog);
-				sendChat("", "Defender " + defendDiceResults.diceTextLog);
+				sendChat("", "Normal " + attackDiceResults.diceTextLog);
+				sendChat("", "Hunger " + defendDiceResults.diceTextLog);
 			}
 		}
 	}
@@ -311,21 +302,21 @@ var processScriptTabs = function (argv, who) {
 
 	var script = argv.shift();
 	switch (script) {
-		case hqCONSTANTS.HQCOMMAND:
+		case vtmCONSTANTS.VTMCOMMAND:
 			switch (argv[0]) {
 				case "log":
 					switch (argv[1]) {
 						case "on":
-							hqGlobal.diceLogChat = true;
+							vtmGlobal.diceLogChat = true;
 							break;
 						case "off":
-							hqGlobal.diceLogChat = false;
+							vtmGlobal.diceLogChat = false;
 							break;
 						case "multi":
-							hqGlobal.diceLogRolledOnOneLine = false;
+							vtmGlobal.diceLogRolledOnOneLine = false;
 							break;
 						case "single":
-							hqGlobal.diceLogRolledOnOneLine = true;
+							vtmGlobal.diceLogRolledOnOneLine = true;
 							break;
 
 					}
@@ -333,33 +324,35 @@ var processScriptTabs = function (argv, who) {
 				case "graphics":
 					switch (argv[1]) {
 						case "on":
-							hqGlobal.diceGraphicsChat = true;
+							vtmGlobal.diceGraphicsChat = true;
 							break;
 						case "off":
-							hqGlobal.diceGraphicsChat = false;
+							vtmGlobal.diceGraphicsChat = false;
 							break;
 						case "s":
-							hqGlobal.diceGraphicsChatSize = hqCONSTANTS.GRAPHICSIZE.SMALL;
+							vtmGlobal.diceGraphicsChatSize = vtmCONSTANTS.GRAPHICSIZE.SMALL;
 							break;
 						case "m":
-							hqGlobal.diceGraphicsChatSize = hqCONSTANTS.GRAPHICSIZE.MEDIUM;
+							vtmGlobal.diceGraphicsChatSize = vtmCONSTANTS.GRAPHICSIZE.MEDIUM;
 							break;
 						case "l":
-							hqGlobal.diceGraphicsChatSize = hqCONSTANTS.GRAPHICSIZE.LARGE;
+							vtmGlobal.diceGraphicsChatSize = vtmCONSTANTS.GRAPHICSIZE.LARGE;
 							break;
 					}
 					break;
 				case "test":
-					hqGlobal.diceTestEnabled = true;
-					tmpLogChat = hqGlobal.diceLogChat;
-					tmpGraphicsChat = hqGlobal.diceGraphicsChat;
-					hqGlobal.diceLogChat = true;
-					hqGlobal.diceGraphicsChat = true;
+					vtmGlobal.diceTestEnabled = true;
+					tmpLogChat = vtmGlobal.diceLogChat;
+					tmpGraphicsChat = vtmGlobal.diceGraphicsChat;
+					vtmGlobal.diceLogChat = true;
+					vtmGlobal.diceGraphicsChat = true;
 					processVampireDiceScript(["v1", "h1"], who);
-					hqGlobal.diceTestEnabled = false;
-					hqGlobal.diceLogChat = tmpLogChat;
-					hqGlobal.diceGraphicsChat = tmpGraphicsChat;
+					vtmGlobal.diceTestEnabled = false;
+					vtmGlobal.diceLogChat = tmpLogChat;
+					vtmGlobal.diceGraphicsChat = tmpGraphicsChat;
 					break;
+				case "hero":
+					sendChat("The best thing about Hero Quest!", "https://www.youtube.com/watch?v=Cx8sl2uC46A");
 				default:
 					processVampireDiceScript(argv, who);
 			}
